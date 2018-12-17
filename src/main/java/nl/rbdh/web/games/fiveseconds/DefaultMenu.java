@@ -21,12 +21,7 @@ public class DefaultMenu extends HorizontalLayout {
             players.getUI().ifPresent(ui -> ui.navigate(""));
         });
 
-        Button testPlayers = new Button("TestData");
-        players.addClickListener(e -> {
-            playerService.loadTestData();
-        });
-
-        add(players,testPlayers);
+        add(players);
     }
 }
 

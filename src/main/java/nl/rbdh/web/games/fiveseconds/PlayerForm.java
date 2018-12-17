@@ -31,8 +31,14 @@ public class PlayerForm extends FormLayout {
         add(firstName, buttons);
         save.getElement().setAttribute("theme", "primary");
         setPlayer(null);
-        save.addClickListener(e -> this.save());
-        delete.addClickListener(e -> this.delete());
+        save.addClickListener(e -> {
+            this.save();
+            setPlayer(new Player());
+        });
+        delete.addClickListener(e -> {
+            this.delete();
+            setPlayer(new Player());
+        });
     }
 
     public void setPlayer(Player player) {

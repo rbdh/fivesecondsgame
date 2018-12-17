@@ -38,6 +38,7 @@ public class MainView extends VerticalLayout {
         setPadding(true);
 
         PlayerForm form = new PlayerForm(this);
+        form.setPlayer(new Player());
         filterText.setPlaceholder("Filter by name...");
         filterText.setValueChangeMode(ValueChangeMode.EAGER);
         filterText.addValueChangeListener(e -> updateList());
@@ -48,25 +49,40 @@ public class MainView extends VerticalLayout {
 
         HorizontalLayout filtering = new HorizontalLayout(filterText,
                 clearFilterTextBtn);
+
+        Button clearPlayerList = new Button("Reset");
+        clearPlayerList.addClickListener(e -> {
+            playerService.clearPlayerList();
+            updateList();
+        });
+
+        Button clearScore = new Button("Reset Score");
+        clearScore.addClickListener(e -> {
+            playerService.resetScore();
+            updateList();
+        });
+
         Button addCustomerBtn = new Button("Speler toevoegen");
         addCustomerBtn.addClickListener(e -> {
             grid.asSingleSelect().clear();
             form.setPlayer(new Player());
         });
+
         add(menuBar);
-        add(filtering);
+//        add(filtering);
 
-        HorizontalLayout toolbar = new HorizontalLayout(filtering,
-                addCustomerBtn);
+        HorizontalLayout crudActions = new HorizontalLayout(clearScore, clearPlayerList);
+
+        VerticalLayout toolbar = new VerticalLayout(form);
 
 
-        grid.setWidth("400px");
+        grid.setWidth("500px");
 
         grid.addColumn(Player::getVoornaam).setHeader("Voornaam");
         grid.addColumn(Player::getRandomNaam).setHeader("Nickname");
         grid.addColumn(Player::getScore).setHeader("Score");
 
-        HorizontalLayout main = new HorizontalLayout(grid, form);
+        VerticalLayout main = new VerticalLayout(grid, crudActions);
         main.setAlignItems(FlexComponent.Alignment.START);
         main.setSizeUndefined();
         main.setHeight("500px");
@@ -85,7 +101,8 @@ public class MainView extends VerticalLayout {
         startButton.addClickListener(e -> {
             startButton.getUI().ifPresent(ui -> ui.navigate("game"));
         });
-
+        startButton.getStyle().set("text-transform", "uppercase").set("font-size", "32px").set("letter-spacing", "5px").set("font-weight", "700");
+        startButton.setWidth("200px");
         HorizontalLayout start = new HorizontalLayout(startButton);
         add(start);
 
@@ -96,9 +113,10 @@ public class MainView extends VerticalLayout {
          * Note that filterText.getValue() might return null; in this case, the backend
          * takes care of it for us
          */
-        grid.setItems(playerService.findAll(filterText.getValue()));
+        grid.setItems(playerService.findAll());
         if (playerService.findAll().size() > 0) {
             startButton.setEnabled(true);
+            startButton.getStyle().set("text-transform", "uppercase").set("font-size", "32px").set("letter-spacing", "5px").set("font-weight", "700").set("background-color", "#c8ffdb");
         } else {
             startButton.setEnabled(false);
         }

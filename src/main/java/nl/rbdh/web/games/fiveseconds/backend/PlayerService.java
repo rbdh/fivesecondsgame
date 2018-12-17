@@ -147,11 +147,11 @@ public class PlayerService {
     public void addPlayer(Player player) {
         playerList.add(player);
     }
-
+*/
     public void removePlayer(Player player) {
         playerList.removeIf(s -> s.getVoornaam().equals(player.getVoornaam()));
     }
-*/
+
 
     public Player getRandomPlayer() {
         List<Player> playerList = new ArrayList<Player>(playerHashMap.values());
@@ -187,6 +187,7 @@ public class PlayerService {
      */
     public synchronized void delete(Player value) {
         playerHashMap.remove(value.getId());
+        removePlayer(value);
     }
 
     private static int getRandomNumberInRange(int min, int max) {
@@ -202,4 +203,16 @@ public class PlayerService {
         save(new Player("Fano"));
         save(new Player("Shanand"));
     }
+
+    public void resetScore() {
+        for(Map.Entry<Long, Player> playerSel : playerHashMap.entrySet()) {
+            playerSel.getValue().setScore(0);
+        }
+    }
+
+    public void clearPlayerList() {
+        playerHashMap.clear();
+        playerList.clear();
+    }
+
 }
