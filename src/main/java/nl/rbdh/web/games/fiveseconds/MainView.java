@@ -116,10 +116,10 @@ public class MainView extends VerticalLayout {
         grid.setItems(playerService.findAll());
         if (playerService.findAll().size() > 0) {
             startButton.setEnabled(true);
-            startButton.getStyle().set("text-transform", "uppercase").set("font-size", "32px").set("letter-spacing", "5px").set("font-weight", "700").set("background-color", "#c8ffdb");
+            startButton.getStyle().set("text-transform", "uppercase").set("font-size", "32px").set("letter-spacing", "5px").set("font-weight", "700").set("background-color", "#c8ffdb").set("padding", "0px");
         } else {
             startButton.setEnabled(false);
-            startButton.getStyle().set("text-transform", "uppercase").set("font-size", "32px").set("letter-spacing", "5px").set("font-weight", "700").set("background-color", "#ff9c9c");
+            startButton.getStyle().set("text-transform", "uppercase").set("font-size", "32px").set("letter-spacing", "5px").set("font-weight", "700").set("background-color", "#ff9c9c").set("padding", "0px");
         }
     }
 
