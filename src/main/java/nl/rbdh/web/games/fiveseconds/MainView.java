@@ -119,6 +119,7 @@ public class MainView extends VerticalLayout {
             startButton.getStyle().set("text-transform", "uppercase").set("font-size", "32px").set("letter-spacing", "5px").set("font-weight", "700").set("background-color", "#c8ffdb");
         } else {
             startButton.setEnabled(false);
+            startButton.getStyle().set("text-transform", "uppercase").set("font-size", "32px").set("letter-spacing", "5px").set("font-weight", "700").set("background-color", "#ff9c9c");
         }
     }
 

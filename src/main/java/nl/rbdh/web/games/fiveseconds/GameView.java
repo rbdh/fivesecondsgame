@@ -95,23 +95,44 @@ public class GameView extends VerticalLayout {
         hardButton.setWidth("150px");
         hardButton.setHeight("75px");
 
-        easyButton.addClickListener(e -> question.setText(questionService.getRandomQuestion(questionService.getEasyQuestionList())));
-        hardButton.addClickListener(e -> question.setText(questionService.getRandomQuestion(questionService.getHardQuestionList())));
         HorizontalLayout easyHardQuestion = new HorizontalLayout(easyButton, hardButton);
 
 
         Button ja = new Button("", VaadinIcon.CHECK_CIRCLE_O.create());
         ja.setWidth("75px");
         ja.setHeight("75px");
+        ja.setEnabled(false);
         ja.getStyle().set("font-size", "42px").set("padding", "0px");
         ja.getStyle().set("background-color", "#c8ffdb");
-        ja.addClickListener(e -> updateScore(true));
+
         Button nee = new Button("", VaadinIcon.CLOSE_CIRCLE_O.create());
         nee.setWidth("75px");
         nee.setHeight("75px");
+        nee.setEnabled(false);
         nee.getStyle().set("font-size", "42px").set("padding", "0px");
         nee.getStyle().set("background-color", "#ff9c9c");
-        nee.addClickListener(e -> updateScore(false));
+
+        ja.addClickListener(e -> {
+            updateScore(true);
+            ja.setEnabled(false);
+            nee.setEnabled(false);
+        });
+        nee.addClickListener(e -> {
+            updateScore(true);
+            ja.setEnabled(false);
+            nee.setEnabled(false);
+        });
+
+        easyButton.addClickListener(e -> {
+            question.setText(questionService.getRandomQuestion(questionService.getEasyQuestionList()));
+            ja.setEnabled(true);
+            nee.setEnabled(true);
+        });
+        hardButton.addClickListener(e -> {
+            question.setText(questionService.getRandomQuestion(questionService.getHardQuestionList()));
+            ja.setEnabled(true);
+            nee.setEnabled(true);
+        });
         HorizontalLayout puntenJa = new HorizontalLayout(ja, nee);
 
         verticalLayout.add(question, easyHardQuestion, puntenJa);
