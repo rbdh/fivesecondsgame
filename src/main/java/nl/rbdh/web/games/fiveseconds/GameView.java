@@ -87,7 +87,7 @@ public class GameView extends VerticalLayout {
         Label beurt = new Label("Beurt:");
         beurt.getStyle().set("text-transform", "uppercase").set("font-size", "36px").set("letter-spacing", "5px").set("font-weight", "700");
 
-        question.getStyle().set("text-transform", "small-caps").set("font-size", "48px").set("letter-spacing", "5px").set("font-weight", "700").set("swing","");
+        question.getStyle().set("text-transform", "small-caps").set("font-size", "48px").set("letter-spacing", "5px").set("font-weight", "700");
         VerticalLayout textLayout = new VerticalLayout(beurt, question);
         textLayout.setHeight("300px");
 
