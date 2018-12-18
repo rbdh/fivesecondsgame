@@ -43,16 +43,14 @@ public class QuestionService {
     }
 
     public String getRandomQuestion(ArrayList<Question> questionList) {
-        int questionListSize = getEasyQuestionList().size();
         StringBuilder volledigeVraag = new StringBuilder();
         volledigeVraag.append("Noem drie ");
-        volledigeVraag.append(questionList.get(getRandomNumberInRange(0, questionListSize)).toString());
+        volledigeVraag.append(questionList.get(getRandomNumberInRange(0, questionList.size())).toString());
         return volledigeVraag.toString();
     }
 
     private static int getRandomNumberInRange(int min, int max) {
         Random r = new Random();
-
         return r.ints(min, (max)).findFirst().getAsInt();
 
     }

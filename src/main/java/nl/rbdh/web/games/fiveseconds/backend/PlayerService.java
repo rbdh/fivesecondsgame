@@ -12,9 +12,15 @@ public class PlayerService {
     private static PlayerService instance = null;
     private static final Logger LOGGER = Logger.getLogger(PlayerService.class.getName());
 
+
     private long nextId = 0;
 
     private int turnId = 0;
+
+    public void setNextId(long nextId) {
+        this.nextId = nextId;
+    }
+
 
     public void setTurnId(int turnId) {
         this.turnId = turnId;
@@ -143,11 +149,11 @@ public class PlayerService {
         playerList.add(entry);
     }
 
-/*
-    public void addPlayer(Player player) {
-        playerList.add(player);
-    }
-*/
+    /*
+        public void addPlayer(Player player) {
+            playerList.add(player);
+        }
+    */
     public void removePlayer(Player player) {
         playerList.removeIf(s -> s.getVoornaam().equals(player.getVoornaam()));
     }
@@ -205,7 +211,7 @@ public class PlayerService {
     }
 
     public void resetScore() {
-        for(Map.Entry<Long, Player> playerSel : playerHashMap.entrySet()) {
+        for (Map.Entry<Long, Player> playerSel : playerHashMap.entrySet()) {
             playerSel.getValue().setScore(0);
         }
     }
@@ -213,6 +219,7 @@ public class PlayerService {
     public void clearPlayerList() {
         playerHashMap.clear();
         playerList.clear();
+        setNextId(0);
     }
 
 }

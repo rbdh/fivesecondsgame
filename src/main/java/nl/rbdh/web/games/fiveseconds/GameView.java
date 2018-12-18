@@ -2,12 +2,14 @@ package nl.rbdh.web.games.fiveseconds;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 import nl.rbdh.web.games.fiveseconds.backend.Player;
 import nl.rbdh.web.games.fiveseconds.backend.PlayerService;
@@ -16,6 +18,7 @@ import nl.rbdh.web.games.fiveseconds.backend.QuestionService;
 
 @Route(value = "game")
 @PageTitle("5SG")
+@StyleSheet("/VAADIN/animate.css")
 public class GameView extends VerticalLayout {
 
     private PlayerService playerService = PlayerService.getInstance();
@@ -84,7 +87,7 @@ public class GameView extends VerticalLayout {
         Label beurt = new Label("Beurt:");
         beurt.getStyle().set("text-transform", "uppercase").set("font-size", "36px").set("letter-spacing", "5px").set("font-weight", "700");
 
-        question.getStyle().set("text-transform", "small-caps").set("font-size", "48px").set("letter-spacing", "5px").set("font-weight", "700");
+        question.getStyle().set("text-transform", "small-caps").set("font-size", "48px").set("letter-spacing", "5px").set("font-weight", "700").set("swing","");
         VerticalLayout textLayout = new VerticalLayout(beurt, question);
         textLayout.setHeight("300px");
 
@@ -116,22 +119,30 @@ public class GameView extends VerticalLayout {
             updateScore(true);
             ja.setEnabled(false);
             nee.setEnabled(false);
+            easyButton.setEnabled(true);
+            hardButton.setEnabled(true);
         });
         nee.addClickListener(e -> {
-            updateScore(true);
+            updateScore(false);
             ja.setEnabled(false);
             nee.setEnabled(false);
+            easyButton.setEnabled(true);
+            hardButton.setEnabled(true);
         });
 
         easyButton.addClickListener(e -> {
             question.setText(questionService.getRandomQuestion(questionService.getEasyQuestionList()));
             ja.setEnabled(true);
             nee.setEnabled(true);
+            easyButton.setEnabled(false);
+            hardButton.setEnabled(false);
         });
         hardButton.addClickListener(e -> {
             question.setText(questionService.getRandomQuestion(questionService.getHardQuestionList()));
             ja.setEnabled(true);
             nee.setEnabled(true);
+            easyButton.setEnabled(false);
+            hardButton.setEnabled(false);
         });
         HorizontalLayout puntenJa = new HorizontalLayout(ja, nee);
 
