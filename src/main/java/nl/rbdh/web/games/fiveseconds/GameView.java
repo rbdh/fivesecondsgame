@@ -1,19 +1,19 @@
 package nl.rbdh.web.games.fiveseconds;
 
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
 import nl.rbdh.web.games.fiveseconds.backend.Player;
 import nl.rbdh.web.games.fiveseconds.backend.PlayerService;
 import nl.rbdh.web.games.fiveseconds.backend.QuestionService;
+
+import java.util.TimerTask;
 
 
 @Route(value = "game")
@@ -27,6 +27,8 @@ public class GameView extends VerticalLayout {
     private HighScoreGrid highScoreGrid = new HighScoreGrid();
 
     private Player currentPlayer = null;
+    public static int interval;
+
 
     Label player = new Label("");
 
@@ -62,7 +64,7 @@ public class GameView extends VerticalLayout {
         highScore.setWidth("20%");
         gameLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
 
-        player.getStyle().set("text-transform", "small-caps").set("font-size", "32px").set("letter-spacing", "2px").set("font-weight", "300");
+        player.getStyle().set("text-transform", "small-caps").set("font-size", "16px").set("letter-spacing", "2px").set("font-weight", "300");
         if (currentPlayer != null) {
             updatePlayerName();
         }
@@ -75,7 +77,12 @@ public class GameView extends VerticalLayout {
 
         add(mainLayout);
 
-        gameLayout.add(player, loadQuestions());
+        Label beurt = new Label("Beurt");
+        beurt.getStyle().set("text-transform", "uppercase").set("font-size", "16px").set("letter-spacing", "5px").set("font-weight", "400");
+
+        gameLayout.add(beurt, player, loadQuestions());
+        gameLayout.setPadding(true);
+        gameLayout.setMargin(false);
 
 
     }
@@ -84,12 +91,9 @@ public class GameView extends VerticalLayout {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setAlignItems(Alignment.CENTER);
 
-        Label beurt = new Label("Beurt:");
-        beurt.getStyle().set("text-transform", "uppercase").set("font-size", "36px").set("letter-spacing", "5px").set("font-weight", "700");
-
         question.getStyle().set("text-transform", "small-caps").set("font-size", "48px").set("letter-spacing", "5px").set("font-weight", "700");
-        VerticalLayout textLayout = new VerticalLayout(beurt, question);
-        textLayout.setHeight("300px");
+        VerticalLayout textLayout = new VerticalLayout(question);
+//        textLayout.setHeight("300px");
 
         Button easyButton = new Button("Makkelijk");
         Button hardButton = new Button("Moeilijk");
@@ -136,6 +140,7 @@ public class GameView extends VerticalLayout {
             nee.setEnabled(true);
             easyButton.setEnabled(false);
             hardButton.setEnabled(false);
+            getTimer(5);
         });
         hardButton.addClickListener(e -> {
             question.setText(questionService.getRandomQuestion(questionService.getHardQuestionList()));
@@ -145,6 +150,7 @@ public class GameView extends VerticalLayout {
             hardButton.setEnabled(false);
         });
         HorizontalLayout puntenJa = new HorizontalLayout(ja, nee);
+
 
         verticalLayout.add(question, easyHardQuestion, puntenJa);
 
@@ -170,4 +176,41 @@ public class GameView extends VerticalLayout {
     private void updatePlayerName() {
         player.setText(currentPlayer.getVoornaam() + " " + currentPlayer.getRandomNaam());
     }
+
+    private void getTimer(int timer) {
+
+        interval = timer;
+        int delay = 1000;
+        int period = 1000;
+        final java.util.Timer time = new java.util.Timer();
+        System.out.println(interval);
+        time.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+                if (interval == 0) {
+                    System.out.println("work finished");
+                    time.cancel();
+                    time.purge();
+                } else {
+                    System.out.println(setInterval());
+                    showTimerNotification();
+                }
+            }
+        }, delay, period);
+
+
+    }
+
+    private static int setInterval() {
+
+        return --interval;
+    }
+
+    private void showTimerNotification() {
+        Notification.show(String.valueOf(interval), 1, Notification.Position.MIDDLE);
+
+
+    }
+
+
 }

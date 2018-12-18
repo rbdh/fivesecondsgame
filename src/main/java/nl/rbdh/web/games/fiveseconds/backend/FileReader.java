@@ -27,7 +27,7 @@ public class FileReader {
         try {
             Scanner s = new Scanner(file);
             while (s.hasNextLine()) {
-                list.add(new Question(s.nextLine().toLowerCase()));
+                list.add(new Question(s.nextLine()));
             }
             s.close();
         } catch (IOException e) {
